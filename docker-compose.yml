@@ -1,0 +1,65 @@
+# SPDX-License-Identifier: PMPL-1.0-or-later
+# Production WordPress stack for nuj-lcb.org.uk
+# Simple, proven, reliable
+
+version: '3.8'
+
+services:
+  wordpress:
+    image: wordpress:6.7-php8.3-apache
+    container_name: nuj-lcb-wordpress
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: ${DB_USER:-wordpress}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
+      WORDPRESS_DB_NAME: ${DB_NAME:-wordpress}
+      WORDPRESS_TABLE_PREFIX: ${TABLE_PREFIX:-wp_}
+      WORDPRESS_DEBUG: ${WP_DEBUG:-false}
+    volumes:
+      - wordpress_data:/var/www/html
+      - ./wp-content:/var/www/html/wp-content
+    depends_on:
+      - db
+    networks:
+      - nuj-lcb-net
+
+  db:
+    image: mariadb:11.2
+    container_name: nuj-lcb-mariadb
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME:-wordpress}
+      MYSQL_USER: ${DB_USER:-wordpress}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - nuj-lcb-net
+
+  # Optional: Varnish cache (enable after WordPress is working)
+  # varnish:
+  #   image: varnish:7.4
+  #   container_name: nuj-lcb-varnish
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8081:80"
+  #   environment:
+  #     VARNISH_SIZE: 256M
+  #   tmpfs:
+  #     - /var/lib/varnish:exec
+  #   depends_on:
+  #     - wordpress
+  #   networks:
+  #     - nuj-lcb-net
+
+volumes:
+  wordpress_data:
+  db_data:
+
+networks:
+  nuj-lcb-net:
+    driver: bridge
