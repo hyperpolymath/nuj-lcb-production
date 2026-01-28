@@ -38,3 +38,8 @@ secrets/
 *.sql
 *.sql.gz
 backups/
+
+# Export files (contain sensitive data)
+nuj-lcb-backup.sql
+nuj-lcb-backup.sql.gz
+wordpress-files.tar.gz
