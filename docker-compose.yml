@@ -8,7 +8,7 @@ version: '3.8'
 
 services:
   wordpress:
-    image: wordpress:6.7-php8.3-apache
+    image: docker.io/library/wordpress:6.7-php8.3-apache
     container_name: nuj-lcb-wordpress
     restart: unless-stopped
     ports:
@@ -22,14 +22,15 @@ services:
       WORDPRESS_DEBUG: ${WP_DEBUG:-false}
     volumes:
       - wordpress_data:/var/www/html
-      - ./wp-content:/var/www/html/wp-content
+      # Commented out for now - add back after WordPress is installed
+      # - ./wp-content:/var/www/html/wp-content
     depends_on:
       - db
     networks:
       - nuj-lcb-net
 
   db:
-    image: mariadb:11.2
+    image: docker.io/library/mariadb:11.2
     container_name: nuj-lcb-mariadb
     restart: unless-stopped
     environment:
