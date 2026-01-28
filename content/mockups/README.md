@@ -14,11 +14,25 @@
 # Open the file directly in your browser
 firefox homepage.html
 # or
+google-chrome homepage.html
+# or
 chromium homepage.html
+# or
+microsoft-edge homepage.html
 
 # Then take a screenshot:
-# - Firefox: Right-click → "Take Screenshot" → "Save full page"
-# - Chrome: F12 → Cmd/Ctrl+Shift+P → "Capture full size screenshot"
+
+# Firefox:
+# - Right-click → "Take Screenshot" → "Save full page"
+# - Or: Shift+Ctrl+S
+
+# Chrome/Chromium:
+# - F12 (open DevTools) → Cmd/Ctrl+Shift+P → "Capture full size screenshot"
+# - Or: Right-click → "Inspect" → Cmd/Ctrl+Shift+P → "screenshot"
+
+# Microsoft Edge:
+# - F12 (open DevTools) → Ctrl+Shift+P → "Capture full size screenshot"
+# - Or: Right-click → "Inspect" → Ctrl+Shift+P → "screenshot"
 ```
 
 ### Method 2: Using Screenshot Tool
