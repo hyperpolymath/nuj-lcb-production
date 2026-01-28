@@ -1,0 +1,39 @@
+# SPDX-License-Identifier: PMPL-1.0-or-later
+name: Code Quality
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions: read-all
+
+jobs:
+  editorconfig:
+    name: EditorConfig Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4
+
+      - uses: editorconfig-checker/action-editorconfig-checker@9f8f6065f4db902c0c56cafa67cea18b3ebbb680  # main
+        with:
+          version: latest
+
+  spdx-headers:
+    name: SPDX License Headers
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4
+
+      - name: Check SPDX headers
+        run: |
+          # Check for SPDX-License-Identifier in all source files
+          EXIT=0
+          for file in $(find . -type f \( -name "*.php" -o -name "*.js" -o -name "*.yml" -o -name "*.yaml" -o -name "*.sh" -o -name "*.scm" -o -name "*.md" -o -name "*.adoc" \) ! -path "*/node_modules/*" ! -path "*/.git/*"); do
+            if ! grep -q "SPDX-License-Identifier" "$file"; then
+              echo "Missing SPDX header: $file"
+              EXIT=1
+            fi
+          done
+          exit $EXIT

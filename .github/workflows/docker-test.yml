@@ -1,0 +1,30 @@
+# SPDX-License-Identifier: PMPL-1.0-or-later
+name: Docker Compose Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions: read-all
+
+jobs:
+  test:
+    name: Test Docker Compose Stack
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4
+
+      - name: Validate docker-compose.yml
+        run: docker-compose config --quiet
+
+      - name: Check for .env.example
+        run: |
+          if [ ! -f .env.example ]; then
+            echo ".env.example not found"
+            exit 1
+          fi
+
+      - name: Test container build (dry run)
+        run: docker-compose pull || true

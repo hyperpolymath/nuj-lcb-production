@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: PMPL-1.0-or-later
+# SPDX-FileCopyrightText: 2025 Jonathan D.A. Jewell <jonathan.jewell@open.ac.uk>
+
+# ASDF tool versions for NUJ LCB Production
+# Install with: asdf install
+
+# Docker and Docker Compose are managed by system package manager
+# These versions are for reference only
+
+docker 27.5.1
+nodejs 22.12.0

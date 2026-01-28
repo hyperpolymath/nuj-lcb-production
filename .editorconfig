@@ -1,0 +1,42 @@
+# SPDX-License-Identifier: PMPL-1.0-or-later
+# SPDX-FileCopyrightText: 2025 Jonathan D.A. Jewell <jonathan.jewell@open.ac.uk>
+
+# EditorConfig for NUJ LCB Production
+# https://editorconfig.org/
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+[*.{php,inc}]
+indent_size = 4
+
+[*.py]
+indent_size = 4
+
+[*.{sh,bash}]
+indent_size = 2
+
+[*.{md,adoc,txt}]
+trim_trailing_whitespace = false
+
+[Makefile]
+indent_style = tab
+
+[*.{yml,yaml}]
+indent_size = 2
+
+[docker-compose*.yml]
+indent_size = 2
+
+[.env*]
+indent_size = 2
+
+[*.scm]
+indent_size = 2

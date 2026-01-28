@@ -1,0 +1,282 @@
+// SPDX-License-Identifier: PMPL-1.0-or-later
+// SPDX-FileCopyrightText: 2025 Jonathan D.A. Jewell <jonathan.jewell@open.ac.uk>
+= NUJ LCB Production Roadmap
+:toc:
+:toclevels: 3
+
+== Overview
+
+This roadmap tracks the deployment of nuj-lcb.org.uk with three services:
+
+* Main site (WordPress)
+* Forum (Zulip at forum.nuj-lcb.org.uk)
+* Video conferencing (Jitsi Meet at convene.nuj-lcb.org.uk)
+
+== Milestone 1: Local WordPress Running
+
+Status: 0% complete
+
+=== Tasks
+
+* [ ] Copy .env.example to .env
+* [ ] Generate strong passwords for database and WordPress
+* [ ] Run `docker-compose up -d`
+* [ ] Complete WordPress installation wizard
+* [ ] Verify database connectivity
+
+== Milestone 2: Theme and Content
+
+Status: 0% complete
+
+=== Tasks
+
+* [ ] Install Newspaperup theme
+* [ ] Configure theme colors (NUJ purple #461cfb)
+* [ ] Upload NUJ LCB logo
+* [ ] Create basic pages (About, Contact, Join)
+* [ ] Add sample blog posts
+* [ ] Configure WordPress settings (permalinks, etc.)
+
+== Milestone 3: Subdomain Services
+
+Status: 0% complete
+
+=== Zulip Forum Setup
+
+* [ ] Deploy Zulip container
+* [ ] Configure forum.nuj-lcb.org.uk
+* [ ] Set up admin account
+* [ ] Create initial streams (General, Announcements, Support)
+* [ ] Configure email notifications
+* [ ] Test threaded conversations
+
+=== Jitsi Meet Setup
+
+* [ ] Deploy Jitsi Meet container
+* [ ] Configure convene.nuj-lcb.org.uk
+* [ ] Test video/audio quality
+* [ ] Configure room authentication settings
+* [ ] Test screen sharing
+* [ ] Test mobile app connectivity
+
+=== Reverse Proxy
+
+* [ ] Install Caddy 2
+* [ ] Configure Caddyfile for all three domains
+* [ ] Set up automatic HTTPS
+* [ ] Configure security headers (HSTS, CSP, X-Frame-Options)
+* [ ] Test SSL certificates for all domains
+
+== Milestone 4: Security and Compliance
+
+Status: 0% complete
+
+=== .well-known Files
+
+* [ ] Create .well-known/security.txt
+* [ ] Create .well-known/change-password
+* [ ] Create .well-known/webfinger (IndieWeb)
+* [ ] Create .well-known/host-meta
+* [ ] Verify all .well-known files accessible
+
+=== Security Headers
+
+* [ ] Configure HSTS (Strict-Transport-Security)
+* [ ] Configure CSP (Content-Security-Policy)
+* [ ] Configure X-Content-Type-Options
+* [ ] Configure X-Frame-Options
+* [ ] Configure Referrer-Policy
+* [ ] Configure Permissions-Policy
+* [ ] Test headers with securityheaders.com
+
+=== PHP and Database Security
+
+* [ ] Disable PHP functions (exec, shell_exec, system, etc.)
+* [ ] Configure PHP error reporting (off in production)
+* [ ] Set up MariaDB firewall rules (only accessible from containers)
+* [ ] Enable MariaDB slow query log
+* [ ] Configure WordPress security plugins
+* [ ] Regular security updates schedule
+
+== Milestone 5: IndieWeb Support
+
+Status: 0% complete
+
+=== WordPress IndieWeb Plugins
+
+* [ ] Install IndieWeb plugin pack
+* [ ] Configure webmention endpoint
+* [ ] Set up h-card (author info)
+* [ ] Configure microformats2 (h-entry for posts)
+* [ ] Test webfinger discovery
+* [ ] Configure POSSE (Publish Own Site, Syndicate Elsewhere)
+
+=== Federation Support
+
+* [ ] Configure ActivityPub (optional)
+* [ ] Test webmention sending/receiving
+* [ ] Verify IndieAuth working
+
+== Milestone 6: Production Deployment
+
+Status: 0% complete
+
+=== DNS Configuration
+
+* [ ] Set up A records (@ , forum, convene)
+* [ ] Set up AAAA records (IPv6)
+* [ ] Configure MX records (email)
+* [ ] Set up SPF, DKIM, DMARC records
+* [ ] Enable DNSSEC in Cloudflare
+* [ ] Verify DNS propagation
+
+=== Cloudflare Setup
+
+* [ ] Enable HTTPS (Full Strict mode)
+* [ ] Enable HSTS
+* [ ] Enable HTTP/3 (QUIC)
+* [ ] Enable Automatic HTTPS Rewrites
+* [ ] Configure firewall rules
+* [ ] Set up DDoS protection
+* [ ] Enable IPv6
+
+=== VPS-D8 Deployment
+
+* [ ] SSH access to VPS
+* [ ] Install Docker and Docker Compose
+* [ ] Clone nuj-lcb-production repo
+* [ ] Copy .env with production values
+* [ ] Start all containers
+* [ ] Verify resource usage (<6GB RAM)
+* [ ] Configure automatic container restart
+
+=== SSL/HTTPS
+
+* [ ] Caddy automatic HTTPS working
+* [ ] Test all three domains with ssllabs.com
+* [ ] Verify HSTS working
+* [ ] Test HTTP → HTTPS redirect
+
+== Milestone 7: Accessibility (WCAG AAA)
+
+Status: 0% complete
+
+=== WCAG AAA Compliance
+
+* [ ] Audit contrast ratios (7:1 for normal text)
+* [ ] Add ARIA landmarks to all pages
+* [ ] Test with screen readers (NVDA, JAWS, VoiceOver)
+* [ ] Test with braille display
+* [ ] Test with eye tracker navigation
+* [ ] Add skip navigation links
+* [ ] Ensure keyboard-only navigation works
+
+=== Frontend Accessibility Features
+
+* [ ] High contrast mode toggle
+* [ ] Font size adjustment controls
+* [ ] Dark mode / light mode toggle
+* [ ] Reduced motion option (prefers-reduced-motion)
+* [ ] Focus indicators highly visible
+* [ ] All images have alt text
+* [ ] All videos have captions
+
+=== Testing
+
+* [ ] Run Lighthouse accessibility audit
+* [ ] Run axe DevTools scan
+* [ ] Test with WAVE browser extension
+* [ ] User testing with assistive tech users
+
+== Milestone 8: Handover and Documentation
+
+Status: 0% complete
+
+=== Admin Documentation
+
+* [ ] Document WordPress admin access
+* [ ] Document Zulip admin panel
+* [ ] Document Jitsi admin settings
+* [ ] Create user management guide
+* [ ] Document backup procedures
+* [ ] Document update procedures
+
+=== Backup Procedures
+
+* [ ] Set up automated WordPress backups
+* [ ] Set up automated Zulip backups
+* [ ] Set up automated database dumps
+* [ ] Test backup restoration process
+* [ ] Document off-site backup storage
+
+=== Content Editor Training
+
+* [ ] Create WordPress editor guide
+* [ ] Train content editors on theme features
+* [ ] Document how to create posts/pages
+* [ ] Document media upload procedures
+* [ ] Create style guide for content
+
+=== Monitoring
+
+* [ ] Set up resource monitoring (RAM, CPU, disk)
+* [ ] Configure WordPress uptime monitoring
+* [ ] Monitor Zulip email delivery
+* [ ] Monitor Jitsi call quality
+* [ ] Set up log aggregation
+* [ ] Configure alerts for service failures
+
+== Milestone 9: Content Launch
+
+Status: 0% complete
+
+=== Initial Content
+
+* [ ] About the Branch page
+* [ ] Contact page
+* [ ] Join Us page
+* [ ] Events calendar
+* [ ] News section (3-5 posts)
+* [ ] Branch officers list
+* [ ] Meeting minutes archive
+
+=== Forum Setup
+
+* [ ] Welcome post in General stream
+* [ ] Announcements stream guidelines
+* [ ] Support stream instructions
+* [ ] Invite initial members
+
+=== Go Live
+
+* [ ] Final testing of all three services
+* [ ] Announce launch to members
+* [ ] Monitor for issues in first 48 hours
+* [ ] Site fully operational and stable
+
+== Future Enhancements
+
+=== Optional Features (Post-Launch)
+
+* [ ] Varnish cache for WordPress (if needed)
+* [ ] CDN integration (beyond Cloudflare)
+* [ ] Newsletter integration
+* [ ] Event registration system
+* [ ] Member directory
+* [ ] Document library
+* [ ] Search functionality enhancement
+
+=== Integration Opportunities
+
+* [ ] Connect Zulip to WordPress (cross-posting)
+* [ ] Embed Jitsi rooms in WordPress pages
+* [ ] Single sign-on across all three services
+* [ ] Unified member database
+
+== Notes
+
+* Keep production simple - avoid over-engineering
+* Test all changes locally before production
+* Maintain separation from experimental repos (lcb-website)
+* Regular security updates are critical
+* Monitor resource usage - scale VPS if needed
