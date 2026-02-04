@@ -1,0 +1,57 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+name: Workflow Linter
+
+on:
+  push:
+    paths:
+      - '.github/workflows/*.yml'
+      - '.github/workflows/*.yaml'
+  pull_request:
+    paths:
+      - '.github/workflows/*.yml'
+      - '.github/workflows/*.yaml'
+
+permissions: read-all
+
+jobs:
+  lint:
+    name: Lint GitHub Actions Workflows
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+
+      - name: Validate workflow files
+        run: |
+          echo "Validating GitHub Actions workflow syntax..."
+
+          # Check all workflow files have required fields
+          for workflow in .github/workflows/*.yml .github/workflows/*.yaml; do
+            if [ -f "$workflow" ]; then
+              echo "Checking: $workflow"
+
+              # Check for SPDX header
+              if ! head -1 "$workflow" | grep -q "SPDX-License-Identifier:"; then
+                echo "❌ Missing SPDX header: $workflow"
+                exit 1
+              fi
+
+              # Check for permissions field
+              if ! grep -q "^permissions:" "$workflow"; then
+                echo "⚠️  Warning: No permissions field in $workflow"
+              fi
+
+              # Basic YAML syntax check (valid structure)
+              if ! grep -qE "^(name|on|jobs):" "$workflow"; then
+                echo "❌ Invalid workflow structure: $workflow"
+                exit 1
+              fi
+
+              echo "✓ Valid: $workflow"
+            fi
+          done
+
+          echo "✅ All workflow files validated"

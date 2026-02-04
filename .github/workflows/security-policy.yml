@@ -1,0 +1,70 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+name: Security Policy Enforcement
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions: read-all
+
+jobs:
+  verify-security-files:
+    name: Verify Security Files
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+
+      - name: Check required security files exist
+        run: |
+          echo "Checking for required security documentation..."
+
+          files=(
+            "SECURITY.md"
+            "CODE_OF_CONDUCT.md"
+            "CONTRIBUTING.md"
+            "LICENSE"
+          )
+
+          missing=()
+          for file in "${files[@]}"; do
+            if [ ! -f "$file" ]; then
+              missing+=("$file")
+            fi
+          done
+
+          if [ ${#missing[@]} -gt 0 ]; then
+            echo "❌ Missing required files:"
+            printf '  - %s\n' "${missing[@]}"
+            exit 1
+          fi
+
+          echo "✓ All required security files present"
+
+      - name: Verify SPDX headers in workflows
+        run: |
+          echo "Checking workflow files for SPDX headers..."
+
+          if [ -d ".github/workflows" ]; then
+            missing_headers=()
+            for workflow in .github/workflows/*.yml .github/workflows/*.yaml; do
+              if [ -f "$workflow" ]; then
+                if ! grep -q "SPDX-License-Identifier:" "$workflow"; then
+                  missing_headers+=("$workflow")
+                fi
+              fi
+            done
+
+            if [ ${#missing_headers[@]} -gt 0 ]; then
+              echo "❌ Workflows missing SPDX headers:"
+              printf '  - %s\n' "${missing_headers[@]}"
+              exit 1
+            fi
+
+            echo "✓ All workflow files have SPDX headers"
+          fi
